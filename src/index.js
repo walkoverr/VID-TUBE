@@ -1,33 +1,18 @@
-console.log("hello from abhishek")
-import logger from "./logger.js";
-import morgan from "morgan";
-import express from 'express'
+import dotenv from 'dotenv'
+import {app} from './app.js'
+import {connectDB} from './db/index.js'
 
-const app= express();
-const PORT=3000;
-const morganFormat = ":method :url :status :response-time ms";
+dotenv.config()
 
-app.use(
-  morgan(morganFormat, {
-    stream: {
-      write: (message) => {
-        const logObject = {
-          method: message.split(" ")[0],
-          url: message.split(" ")[1],
-          status: message.split(" ")[2],
-          responseTime: message.split(" ")[3],
-        };
-        logger.info(JSON.stringify(logObject));
-      },
-    },
-  })
-);
+console.log(process.env.PORT)
 
-app.get('/',(req,res)=>{
-    logger.info("someone ask for hello buddy!")
-    res.send("hello world!")
-})
-
+connectDB().then(()=>{
 app.listen(PORT,()=>{
-    console.log(`PORT is listening on PORT no-:${PORT}`)
+    console.log("hello")
+    console.log(`server is listening on port No-:${PORT}`)
 })
+}).catch(()=>{
+console.log("Database not connected")
+})
+const PORT = process.env.PORT || 8001;
+
