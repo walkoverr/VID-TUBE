@@ -4,7 +4,9 @@ import dotenv from 'dotenv'
 
 const connectDB= async()=>{
     try{
+        console.log("here")
         const co = await mongoose.connect(`${process.env.MONGO_URI}/${DB_NAME}`)
+        console.log("where")
         console.log(`MongoDB connected! DB host:${co.connection.host}`)
     }
     catch(error){
